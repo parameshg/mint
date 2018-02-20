@@ -1,0 +1,66 @@
+<div class="container body-content" style="min-height: 547px;">
+    <br>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span class="navbar-brand">Mint</span>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li><a href="/settings"><span class="glyphicon glyphicon-film"></span> Settings</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="/logout"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+                    <li class="pull-right">
+                        <a href="/profile">
+                            <img src="https://www.gravatar.com/avatar/a5bdf020a0df22e73659c7e3ee055c13?s=23" alt="Gravatar" align="left"> &nbsp; Paramesh Gunasekaran
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a>Copyright © Paramesh Gunasekaran 2018 Mint Money. All Rights Reserved.</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="#" (click)="open(version)">Version 1.0.0.31</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Version Modal -->
+    <ng-template #version>
+        <div class="modal-body">
+            <table width="100%" class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td style="text-align:left"><b>Version</b></td>
+                        <td style="text-align:left">1.0.0.31</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left"><b>Build</b></td>
+                        <td style="text-align:left">9/28/2017 8:13:08 PM</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left"><b>Hash</b></td>
+                        <td style="text-align:left"><small>7e464625774358ba56bb5725f2213dae3c6521d236bde907909a52b8817c7f16</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+    <br>
+</div>

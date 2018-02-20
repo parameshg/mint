@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Mint.Import": {
+      "commandName": "Project",
+      "commandLineArgs": "default@localhost default C:\\Param\\2_HIGH\\Personal\\Home\\Expenses\\Param-Monthly-Expenses-2017.xlsx"
+    }
+  }
+}

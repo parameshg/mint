@@ -1,0 +1,137 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <table width="100%" border="0">
+      <tr>
+        <td>
+          <h3 class="panel-title"><b>Transactions</b></h3>
+        </td>
+        <td width="200px" style="text-align:right">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+              <span class="glyphicon glyphicon-lock"></span>
+            </span>
+            <select class="form-control" [(ngModel)]="account" (change)="changeAccount()">
+              <option *ngFor="let i of accounts" value="{{i.id}}">{{i.name}}</option>
+            </select>
+          </div>
+        </td>
+        <td width="1px">&nbsp;</td>
+        <td width="80px" style="text-align:right">
+          <select class="form-control" [(ngModel)]="year" (change)="loadTransactions()">
+            <option *ngFor="let i of years" value="{{i}}">{{i}}</option>
+          </select>
+        </td>
+        <td width="1px">&nbsp;</td>
+        <td width="120px" style="text-align:right">
+          <select class="form-control" [(ngModel)]="month" (change)="loadTransactions()">
+            <option *ngFor="let i of months" value="{{i.id}}">{{i.name}}</option>
+          </select>
+        </td>
+        <td width="1px">&nbsp;</td>
+        <td width="10px" style="text-align:right">
+          <button class="btn btn-primary" disabled>
+            <span class="glyphicon glyphicon-import"></span>&nbsp;Import
+          </button>
+        </td>
+        <td width="1px">&nbsp;</td>
+        <td width="10px" style="text-align:right">
+          <button class="btn btn-primary" disabled>
+            <span class="glyphicon glyphicon-export"></span>&nbsp;Export
+          </button>
+        </td>
+        <td width="1px">&nbsp;</td>
+        <td width="10px" style="text-align:right">
+          <button class="btn btn-primary" disabled>
+            <span class="glyphicon glyphicon-scale"></span>&nbsp;Reports
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="panel-body">
+    <form ngForm="#newForm" novalidate>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td align="center" width="10px"><b>SN</b></td>
+            <td align="center" width="120px"><b>Date</b></td>
+            <td><b>Description</b></td>
+            <td align="center" width="120px"><b>Type</b></td>
+            <td align="center" width="200px"><b>Category</b></td>
+            <td align="center" width="100px"><b>Amount</b></td>
+            <td width="10px" style="text-align:center"><span class="glyphicon glyphicon-trash"></span></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of transactions; let ix = index" [class.success]="i.type.name === 'Income'">
+            <td align="center">{{ix + 1}}</td>
+            <td align="center">{{i.date | date:'dd-MMM-yy'}}</td>
+            <td>{{i.description}}</td>
+            <td align="center">{{i.type.name}}</td>
+            <td align="center">{{i.category.name}} - {{i.subCategory.name}}</td>
+            <td align="center">{{i.amount | currency}}</td>
+            <td>
+              <button class="btn btn-xs btn-danger" (click)="deleteTransaction(i.id)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><input type="text" name="newDate" class="form-control" #dp="bsDatepicker" bsDatepicker [(bsValue)]="transaction.date" [bsConfig]="{ dateInputFormat: 'DD-MMM-YY' }" style="text-align:center"></td>
+            <td><input type="text" name="newDescription" class="form-control" placeholder="description" [(ngModel)]="transaction.description" /></td>
+            <td>
+              <select class="form-control" name="newType" [(ngModel)]="transaction.type">
+                <option *ngFor="let type of types" value="{{type.id}}">{{type.name}}</option>
+                </select>
+            </td>
+            <td>
+              <table width="100%" border="0">
+                <tr>
+                  <td>
+                    <select class="form-control" name="newCategory" #newCategory [(ngModel)]="transaction.category" (change)="loadSubCategories(newCategory.value)">
+                      <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+                    </select>
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>
+                    <select class="form-control" name="newSubCategory" [(ngModel)]="transaction.subCategory">
+                      <option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}">{{subCategory.name}}</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td><input type="text" name="newAmount" class="form-control" [(ngModel)]="transaction.amount" placeholder="amount" style="text-align:center" /></td>
+            <td style="vertical-align:middle">
+              <button class="btn btn-xs btn-primary" (click)="createTransaction()">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <table width="100%" border="0" [hidden]="!showSummary()">
+      <tr>
+        <td width="70%"></td>
+        <td width="30%">
+          <table class="table table-bordered" width="100%">
+            <tr>
+              <td width="120px" style="color:green"><b>Total Income</b></td>
+              <td align="center" style="color:green"><b>{{totalIncome | currency}} ({{totalIncomePercent | number:'1.1-1'}}%)</b></td>
+            </tr>
+            <tr>
+              <td width="150px" style="color:red"><b>Total Expenditure</b></td>
+              <td align="center" style="color:red"><b>{{totalExpense | currency}} ({{totalExpensePercent | number:'1.1-1'}}%)</b></td>
+            </tr>
+            <tr>
+              <td width="100px"><b>Net Value</b></td>
+              <td align="center"><b>{{netValue | currency}} ({{netValuePercent | number:'1.1-1'}}%)</b></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
